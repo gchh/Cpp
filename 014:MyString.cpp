@@ -71,7 +71,7 @@ public:
 	~MyString() { if(p) delete [] p; }
 	void Copy(const char *s) 
 	{
-		//if(p) delete p;
+		if(p) delete p;
 		p = new char[strlen(s) + 1];
 		strcpy(p,s);
 	}
@@ -87,11 +87,11 @@ public:
 	}
 	MyString & operator=(const char * s)
 	{
-		//if(strlen(p)<strlen(s))
-		//{
-		//	if(p) delete[] p;
+		if(strlen(p)<strlen(s))
+		{
+			if(p) delete[] p;
 			p=new char[strlen(s)+1]; 
-		//}
+		}
 		strcpy(p,s);
 		return *this;
 	}	
