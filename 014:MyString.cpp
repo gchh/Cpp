@@ -82,6 +82,7 @@ public:
 		//	if(p) delete[] p;
 			p=new char[strlen(s.p)+1]; 
 		//}
+		//加上屏蔽的这些语句，报Runtime Error，但实际上DEV C++结果也是对的。Why?
 		strcpy(p,s.p);
 		return *this;
 	}
