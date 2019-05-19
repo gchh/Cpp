@@ -92,6 +92,7 @@ public:
 	}
 	MyString & operator+=(const char * s)
 	{
+	#if 0
 		char * tmp;
 		tmp = new char[strlen(str) + 1];
 		strcpy(tmp, str);
@@ -99,6 +100,9 @@ public:
 		str = new char[strlen(tmp) + strlen(s)+1];
 		strcpy(str, tmp);
 		strcat(str, s);
+	#else  //简化
+		*this = *this + MyString(s);
+	#endif
 		return *this;
 	}
 	friend MyString operator+(const char * s, const MyString & st);
@@ -268,6 +272,7 @@ public:
 	}
 	MyString & operator+=(const char * s)
 	{
+	#if 0
 		char * tmp;
 		tmp = new char[strlen(str) + 1];
 		strcpy_s(tmp, strlen(str) + 1, str);//strcpy(tmp, str);
@@ -276,6 +281,9 @@ public:
 		strcpy_s(str, strlen(tmp)+1, tmp);//strcpy(str, tmp);
 		strcat_s(str, strlen(str) + strlen(s)+1, s); //strcat(str, s); //strncat(str, s, strlen(s));
 		return *this;
+	#else
+		return *this = *this + MyString(s);
+	#endif
 	}
 	friend MyString operator+(const char * s, const MyString & st);
 	friend ostream & operator<<(ostream & os, const MyString & s);
