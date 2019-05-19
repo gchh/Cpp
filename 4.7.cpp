@@ -235,10 +235,14 @@ public:
 	}
 	MyString & operator=(const char * s)
 	{
+	#if 0
 		if (str) delete[] str;
 		str = new char[strlen(s)+1];
 		strcpy_s(str, strlen(s)+1, s);//strcpy(str, s);
 		return *this;
+	#else
+		return *this = MyString(s);
+	#endif
 	}
 	MyString operator+(const MyString & s)
 	{
@@ -251,12 +255,16 @@ public:
 	}
 	MyString operator+(const char * s)
 	{
+	#if 0
 		MyString sTmp(*this);
 		if (sTmp.str) delete[] sTmp.str;
 		sTmp.str = new char[strlen(this->str) + strlen(s) + 1];
 		strcpy_s(sTmp.str, strlen(this->str) + 1, this->str);//strcpy(sTmp.str, this->str);
 		strcat_s(sTmp.str, strlen(this->str) + strlen(s) + 1, s); //strcat(sTmp.str, s);
 		return sTmp;
+	#else
+		return *this + MyString(s);
+	#endif
 	}
 	MyString & operator+=(const char * s)
 	{
@@ -288,11 +296,15 @@ public:
 };
 MyString operator+(const char * s, const MyString & st)
 {
+#if 0
 	MyString ss;
 	ss.str = new char[strlen(s) + strlen(st.str)+1];
 	strcpy_s(ss.str, strlen(s)+1, s);//strcpy(ss.str, s);
 	strcat_s(ss.str, strlen(ss.str) + strlen(st.str)+1, st.str); //strcat(ss.str, st.str); //strncat(ss.str, st.str, strlen(st.str));
 	return ss;
+#else
+	return st + MyString(s);
+#endif
 }
 ostream & operator<<(ostream & os, const MyString & s)
 {
