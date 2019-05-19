@@ -58,9 +58,13 @@ public:
 	}
 	MyString & operator=(const char * s)
 	{
+	#if 0
 		if (str) delete[] str;
 		str = new char[strlen(s)+1];
 		strcpy(str, s);
+	#else  //简化
+		*this = MyString(s);
+	#endif
 		return *this;
 	}
 	//+重载函数不能返回MyString &引用，否则，s1+s3或s1+"dddd"会导致s1的内容改变，而这不是我们想要的。 
@@ -75,12 +79,16 @@ public:
 	}
 	MyString operator+(const char * s)
 	{
+	#if 0
 		MyString sTmp(*this);
 		if (sTmp.str) delete[] sTmp.str;
 		sTmp.str = new char[strlen(this->str) + strlen(s)+1];
 		strcpy(sTmp.str, this->str);
 		strcat(sTmp.str, s);
 		return sTmp;
+	#else  //简化
+		return *this+ MyString(s);
+	#endif
 	}
 	MyString & operator+=(const char * s)
 	{
@@ -113,11 +121,15 @@ public:
 };
 MyString operator+(const char * s, const MyString & st)
 {
+#if 0
 	MyString ss;
 	ss.str = new char[strlen(s) + strlen(st.str)+1];
 	strcpy(ss.str, s);
 	strcat(ss.str, st.str);
 	return ss;
+#else
+	return st+MyString(s);
+#endif
 }
 ostream & operator<<(ostream & os, const MyString & s)
 {
