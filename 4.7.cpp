@@ -380,14 +380,14 @@ int main()
 	cout << s1(5, 10) << endl;
 	return 0;
 }
-/******************************************使用string类：DEV C++/visual studio***********************************************/
+/******************************************使用string类，复合关系(封闭类)：DEV C++/visual studio***********************************************/
 #include<iostream>
 #include<string>
 #include<cstring>
 #include<cstdlib>
 using namespace std;
 class MyString{
-	string str;
+	string str; //封闭类
 public:
 	MyString(){ }
 	MyString(const char * s)
