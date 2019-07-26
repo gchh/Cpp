@@ -2,11 +2,11 @@
 编写一个程序doublefile．exe．运行方式如下：
 doubleflie 文件名
 则能将指定文件内容加倍，文件未必是文本文件。例如有some．txt文件内容如下：
-ThLs is a file
-Please double lt
+ThLs is a file.
+Please double lt.
 最后一行后面没有换行。则经过处理后some．txt文件内容如下:
 This is a file.
-Please double it, This is a file.
+Please double it.This is a file.
 Please double id.
 **********************************************************/
 #include<iostream>
