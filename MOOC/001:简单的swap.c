@@ -15,8 +15,8 @@ class A
 	int getX() { return x; }	
 };
 void swap(
-A & a, A & b
-)
+A & a, A & b // 在此处补充你的代码
+) 
 {
 	int  tmp = a.x;
 	a.x = b.x;
