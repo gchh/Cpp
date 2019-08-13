@@ -18,11 +18,19 @@ T* a,T* b)
 {
 	T p;
 	p = *a;
+#if 0	
 	int t = b - a;
 	for (int i = 1; i < t; i++)
 	{
 		p += *(++a);
 	}
+#else
+	while (b - a > 1)
+	{
+		p += *(++a);
+	}
+	return p;	
+#endif
 	return p;
 // 在此处补充你的代码
 }
