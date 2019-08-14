@@ -27,6 +27,7 @@ using namespace std;
 class MyCin
 {
 // 在此处补充你的代码
+#if 0
 public:
 	istream& operator>>(int& n)
 	{
@@ -34,6 +35,28 @@ public:
 		if (n == -1) exit(0);
 		return cin;
 	}
+#else
+private:
+	bool status;
+public:
+	MyCin() :status(true){}
+	MyCin & operator >> (int & n)
+	{
+	#if 0	
+		cin >> n;
+		if (n == -1) exit(0);
+	#else
+		if (!status)
+			return *this;
+		cin >> n;
+		if (n == -1) status = false;		
+	#endif
+	}
+	operator bool()
+	{
+		return status;
+	}
+#endif
 // 在此处补充你的代码
 };
 int main()
