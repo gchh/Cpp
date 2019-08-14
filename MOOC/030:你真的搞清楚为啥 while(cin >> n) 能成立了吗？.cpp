@@ -46,13 +46,19 @@ public:
 		cin >> n;
 		if (n == -1) exit(0);
 	#else
+		#if 0
 		if (!status)
 			return *this;
 		cin >> n;
-		if (n == -1) status = false;		
+		if (n == -1) status = false;	
+		#else
+		cin >> n;
+		if (n == -1) status = false;	
+		return *this;
+		#endif
 	#endif
 	}
-	operator bool()
+	operator bool() //while循环的判断条件
 	{
 		return status;
 	}
