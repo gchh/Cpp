@@ -87,7 +87,13 @@ class CMyistream_iterator
 public:
 	CMyistream_iterator(istream& i) :in(i){ cin >> value; }
 	T operator*(){ return value; }
-	CMyistream_iterator& operator++()
+	CMyistream_iterator& operator++(int) //后缀++
+	{
+		CMyistream_iterator<T>tmp = *this;
+		cin >> value;
+		return tmp;
+	}
+	CMyistream_iterator& operator++() //前缀++
 	{
 		cin >> value;
 		return *this;
