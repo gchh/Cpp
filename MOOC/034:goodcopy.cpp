@@ -55,6 +55,7 @@ public:
 		}
 		delete[] tmp;
 	}
+	// 在此处补充你的代码
 };
 
 int a[200];
