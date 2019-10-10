@@ -84,6 +84,7 @@ template <class T>
 class CArray3D
 {
 	// 在此处补充你的代码
+#if 0 //memset处有问题	
 	int block, row, col;
 	T*** ptr;
 public:
@@ -104,6 +105,82 @@ public:
 	{
 		return ptr[i];
 	}
+#endif
+#if 0 //ok
+	class CArray2D {
+		int y, z;
+		T* p;
+	public:
+		~CArray2D() { delete[]p; }
+		void set(int m, int n) 
+		{
+			y = m, z = n;
+			p = new T[m * n];
+		}
+		T* operator[](int k) 
+		{
+			return p + k * z;
+		}
+		operator T* () 
+		{
+			return this->p;
+		}
+	};
+	int x;
+	CArray2D* ptoa;
+public:
+	CArray3D(int m, int n, int k) :x(m) 
+	{
+		ptoa = new CArray2D[x];
+		for (int i = 0; i < x; i++)
+			ptoa[i].set(n, k);
+	}
+	~CArray3D() { delete[]ptoa; }
+	CArray2D& operator[](int k) 
+	{
+		return ptoa[k];
+	}
+#endif
+#if 1 //ok	
+public:
+	class CArray2D {
+	public:
+		int y, z;
+		T** p;
+		~CArray2D() { delete[]p; }
+		void set(int m, int n)
+		{
+			y = m, z = n;
+			p = new T*[m];
+			for (int i = 0; i < m; ++i)
+			{
+				p[i] = new T[n];
+			}
+		}
+		T*& operator[](int k)
+		{
+			return p[k];
+		}
+		operator T* ()
+		{
+			return *this->p;
+		}
+	};
+	int x;
+	CArray2D* ptoa;
+	CArray3D(int m, int n, int k) :x(m)
+	{
+		ptoa = new CArray2D[x];
+		for (int i = 0; i < x; i++)
+			ptoa[i].set(n, k);
+	}
+	~CArray3D() { delete[]ptoa; }
+	CArray2D& operator[](int k)
+	{
+		return ptoa[k];
+	}
+#endif	
+	// 在此处补充你的代码
 };
 
 CArray3D<int> a(3, 4, 5);
