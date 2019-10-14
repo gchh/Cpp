@@ -95,7 +95,7 @@ int main()
 				if (abs(p.first->first - power) > abs(p.second->first - power)) adversary = p.second->second; //比较哪个差别更小，将其作为对手
 			}
 		}
-		else adversary = p.first->second;//有和power相等的元素，作为id的对手
+		else adversary = p.first->second;//有和power相等的元素，因为输入保证两人的实力值不同，所以这个值也是唯一的，作为id的对手
 		printf("%d %d\n", id, adversary);//cout << id << " " << adversary << endl;
 		member.insert(map<int, int>::value_type(power, id));
 	}
