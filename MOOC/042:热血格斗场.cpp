@@ -29,6 +29,7 @@ N行，每行两个数，为每场比赛双方的id，新手的id写在前面。
 3 2
 4 2
 ********************************************************************************************************/
+#if 0
 // Time Limit Exceeded 
 #include<iostream>
 #include<map>
@@ -64,5 +65,42 @@ int main()
 	}
 	return 0;
 }
+
+#else
+//Accepted
+#define _CRT_SECURE_NO_WARNINGS
+#include<cstdlib>
+#include<cmath>
+#include<iostream>
+#include<map>
+using namespace std;
+int main()
+{
+	map<int, int>member;
+	member.insert(map<int, int>::value_type(1000000000, 1));
+	int newmembers, id, power, adversary;
+	scanf("%d", &newmembers);//cin >> newmembers;
+	for (int i = 1; i <= newmembers; ++i)
+	{
+		scanf("%d %d", &id, &power);//cin >> id >> power;
+		pair<map<int, int>::iterator, map<int, int>::iterator>p = member.equal_range(power);
+		if (p.first == p.second) //没有和power相等的元素，寻找和power相差最小的元素，作为id的对手
+		{
+			if (p.first == member.begin()) adversary = p.first->second; //只有一个元素
+			else
+			{
+				//p.first和p.second指向同一个元素，其实力大于power，但是所有大于power的值中差别最小的
+				--p.first; //其实力小于power，且是所有小与power的值中差别最小的
+				adversary = p.first->second; //先将其作为对手
+				if (abs(p.first->first - power) > abs(p.second->first - power)) adversary = p.second->second; //比较哪个差别更小，将其作为对手
+			}
+		}
+		else adversary = p.first->second;//有和power相等的元素，作为id的对手
+		printf("%d %d\n", id, adversary);//cout << id << " " << adversary << endl;
+		member.insert(map<int, int>::value_type(power, id));
+	}
+	return 0;
+}
+
 
 
