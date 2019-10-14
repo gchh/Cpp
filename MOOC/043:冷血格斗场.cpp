@@ -31,4 +31,41 @@ N行，每行两个数，为每场比赛双方的id，新手的id写在前面。
 4 2
 
 ***********************************************************************************************/
-不是和热血格斗场一样的吗？
+// Time Limit Exceeded 
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<map>
+#include<math.h>
+#include<stdio.h>
+using namespace std;
+int main()
+{
+	map<int, int>Members;
+	int newmembers,id,power;
+	Members.insert(map<int, int>::value_type(1, 1000000000));
+	scanf("%d", &newmembers);//cin >> newmembers;
+	for (int i = 1; i <= newmembers; i++)
+	{
+		scanf("%d %d", &id,&power);//cin >> id >> power;
+		map<int, int>::iterator p = Members.begin();
+		int base = abs(p->second - power);
+		map<int, int>::iterator q = p;
+		for (; p != Members.end(); ++p)
+		{
+			if (base > abs(p->second - power))
+			{
+				base = abs(p->second - power);
+				q = p;
+			}
+			else if (base == abs(p->second - power) && q->first > p->first) //power > p->second)
+			{
+				base = abs(p->second - power);
+				q = p;
+			}
+		}
+		printf("%d %d\n", id, q->first);//cout << id << " " << q->first << endl;
+		Members.insert(map<int, int>::value_type(id, power));
+	}
+	return 0;
+}
+
