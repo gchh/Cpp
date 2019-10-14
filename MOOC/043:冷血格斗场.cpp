@@ -31,6 +31,7 @@ N行，每行两个数，为每场比赛双方的id，新手的id写在前面。
 4 2
 
 ***********************************************************************************************/
+#if 0
 // Time Limit Exceeded 
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
@@ -69,3 +70,97 @@ int main()
 	return 0;
 }
 
+#else
+// Wrong Answer 
+#define _CRT_SECURE_NO_WARNINGS
+#include<cstdlib>
+#include<cmath>
+#include<iostream>
+#include<map>
+using namespace std;
+int main()
+{
+	multimap<int, int>member;
+	member.insert(multimap<int, int>::value_type(1000000000, 1));
+	int newmembers, id, power, adversary;
+	scanf("%d", &newmembers);//cin >> newmembers;
+	for (int i = 1; i <= newmembers; ++i)
+	{
+		scanf("%d %d", &id, &power);//cin >> id >> power;
+		pair<multimap<int, int>::iterator, multimap<int, int>::iterator>p = member.equal_range(power);
+		if (p.first == p.second) //没有和power相等的元素，寻找和power相差最小的元素，作为id的对手
+		{
+			if (p.first == member.begin()) adversary = p.first->second; //只有一个元素
+			else
+			{
+				//p.first和p.second指向同一个元素，其实力大于power，但是所有大于power的值中差别最小的
+				--p.first; //其实力小于power，且是所有小与power的值中差别最小的
+				if (abs(p.first->first - power) > abs(p.second->first - power)) //比较哪个差别更小，将其作为对手
+				{
+					//寻找和p.second->first相同的元素，其中id最小的作为对手
+					pair<multimap<int, int>::iterator, multimap<int, int>::iterator>pp = member.equal_range(p.second->first);
+					adversary = pp.first->second;
+					for (; pp.first != pp.second; ++pp.first)
+					{
+						if (adversary > pp.first->second)
+						{
+							adversary = pp.first->second;
+						}
+					}
+				}
+				else if (abs(p.first->first - power) < abs(p.second->first - power))
+				{
+					//寻找和p.first->first相同的元素，其中id最小的作为对手
+					pair<multimap<int, int>::iterator, multimap<int, int>::iterator>pp = member.equal_range(p.first->first);
+					adversary = pp.first->second;
+					for (; pp.first != pp.second; ++pp.first)
+					{
+						if (adversary > pp.first->second)
+						{
+							adversary = pp.first->second;
+						}
+					}
+				}
+				else  //abs(p.first->first - power) == abs(p.second->first - power)
+				{
+					//寻找和p.second->first相同的元素，找出其最小的id
+					pair<multimap<int, int>::iterator, multimap<int, int>::iterator>pp = member.equal_range(p.second->first);
+					adversary = pp.first->second;
+					for (; pp.first != pp.second; ++pp.first)
+					{
+						if (adversary > pp.first->second)
+						{
+							adversary = pp.first->second;
+						}
+					}
+
+					//寻找和p.first->first相同的元素，其中id最小的作为对手
+					pp = member.equal_range(p.first->first);
+					for (; pp.first != pp.second; ++pp.first)
+					{
+						if (adversary > pp.first->second)
+						{
+							adversary = pp.first->second;
+						}
+					}
+				}
+			}
+		}
+		else //有和power相等的元素
+		{
+			//在这些相同元素中寻找id最小的最为对手
+			adversary = p.first->second;
+			for (; p.first != p.second; ++p.first)
+			{
+				if (adversary > p.first->second)
+				{
+					adversary = p.first->second;
+				}
+			}
+		}
+		printf("%d %d\n", id, adversary);//cout << id << " " << adversary << endl;
+		member.insert(multimap<int, int>::value_type(power, id));
+	}
+	return 0;
+}
+#endif
