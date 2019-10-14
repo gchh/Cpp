@@ -69,8 +69,8 @@ int main()
 	}
 	return 0;
 }
-
-#else
+#endif
+#if 0
 // Wrong Answer 
 #define _CRT_SECURE_NO_WARNINGS
 #include<cstdlib>
@@ -160,6 +160,74 @@ int main()
 		}
 		printf("%d %d\n", id, adversary);//cout << id << " " << adversary << endl;
 		member.insert(multimap<int, int>::value_type(power, id));
+	}
+	return 0;
+}
+#endif
+#if 1
+// Accepted
+#include <cstdlib>
+#include <iostream>
+#include <map>
+using namespace std;
+class A {
+public:
+	int power;
+	int id;
+	A(int m, int n) :power(m), id(n) {}
+};
+class Cmp {
+public:
+	bool operator()(const A& m, const A& n)const {
+		return (m.power < n.power || (m.power == n.power && m.id < n.id));
+	}
+};
+int main()
+{
+	multimap<A, int, Cmp> member;
+	multimap<A, int>::iterator i, j;
+	int n;
+	cin >> n;
+	A tmp(1000000000, 1);
+	member.insert(pair<A, int>(tmp, 1));
+	for (int k = 1; k <= n; ++k) 
+	{
+		int id, power, adver = 1, adverp;
+		int min = 1000000000;
+		scanf("%d%d", &id, &power);
+		tmp.id = id; tmp.power = power;
+		i = member.lower_bound(tmp);
+		j = member.upper_bound(tmp);
+		if (i == j) 
+		{
+			if (i != member.begin())
+			{
+				--i;
+				adverp = i->first.power;
+				min = abs(power - adverp);
+				while (i->first.power == adverp) 
+				{
+					adver = i->first.id;
+					if (i == member.begin())break;
+					--i;
+				}
+				if (min > j->first.power - power || (min == j->first.power - power && j->first.id < adver))
+					adver = j->first.id;
+			}
+			else adver = i->first.id;
+		}
+		else 
+		{
+			adverp = i->first.power;
+			while (i->first.power == adverp) 
+			{
+				adver = i->first.id;
+				if (i == member.begin())break;
+				--i;
+			}
+		}
+		printf("%d %d\n", id, adver);
+		member.insert(pair<A, int>(tmp, id));
 	}
 	return 0;
 }
